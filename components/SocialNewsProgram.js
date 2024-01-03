@@ -31,16 +31,17 @@ export default class SocialNewsProgram {
 
     removeLink() {
         let input;
-
-        input = prompt("Enter the number of the url to be removed:", "");
-
-        /*let number;
+        let number;
 
         do {
-            number = parseInt(prompt("Enter the number of the url to be removed:", ""));
-        } while (isNaN(number) || number < 1 || number > this.#links.length);
+            input = prompt("Enter the number of the link to be removed:", "");
 
-        this.#links.splice(number - 1, 1);*/
+            if (input === null) {
+                return;
+            }
+
+            number = parseInt(input);
+        } while(isNaN(number) || number < 1 || number > this.#links.length);
     };
 
     showLinks() {
