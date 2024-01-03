@@ -1,36 +1,53 @@
 import Link from "./Link.js";
 
 export default class SocialNewsProgram {
-    #links = [
-        new Link("aa", "ab", "ac"),
-        new Link("ba", "bb", "bc"),
-        new Link("ca", "cb", "cc"),
-    ];
+    #links = [];
 
     addLink() {
-        let site = prompt("Enter site:", "");
-        let link = prompt("Enter link:", "");
-        let author = prompt("Enter author:", "");
+        let addLinkDefault = () => {
+            let title = prompt("Enter the url title:", "");
+            let url = prompt("Enter the url url:", "");
+            let author = prompt("Enter the url author:", "");
 
-        let newLink = new Link(site, link, author);
-        this.#links.push(newLink);
+            let newLink = new Link(title, url, author);
+            this.#links.push(newLink);
+        }
+
+        let addLinkWithParams = (title, url, author) => {
+            let newLink = new Link(title, url, author);
+            this.#links.push(newLink);
+        }
+
+        switch(arguments.length) {
+            case 3: {
+                addLinkWithParams(arguments[0], arguments[1], arguments[2]);
+                break;
+            }
+            default: {
+                addLinkDefault();
+            }
+        }
     };
 
     removeLink() {
-        let index;
+        let input;
+
+        input = prompt("Enter the number of the url to be removed:", "");
+
+        /*let number;
 
         do {
-            index = parseInt(prompt("Enter index:", ""));
-        } while (isNaN(index) || index < 0 || index > this.#links.length - 1);
+            number = parseInt(prompt("Enter the number of the url to be removed:", ""));
+        } while (isNaN(number) || number < 1 || number > this.#links.length);
 
-        this.#links.splice(index, 1);
+        this.#links.splice(number - 1, 1);*/
     };
 
     showLinks() {
         let output = "";
 
         this.#links.forEach((link, index) => {
-            output += `${index + 1}: ${link.getInfo()}\n`;
+            output += `${index + 1}: ${link.toString()}\n`;
         });
 
         alert(output);
@@ -41,6 +58,6 @@ export default class SocialNewsProgram {
     1: Show links
     2: Add a link
     3: Remove a link
-    0: Quit`);
+    0: Quit`, "");
     }
 }

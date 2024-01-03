@@ -1,11 +1,11 @@
 export default class Link {
-    constructor(site = "", link = "", author = "") {
-        this.site = site;
-        this.link = link;
+    constructor(title = "", url = "", author = "") {
+        this.title = title;
+        this.url = url;
         this.author = author;
     }
 
-    getInfo() {
-        return `${this.site}: (${this.link}). Author: ${this.author}`;
+    toString() {
+        return `${this.title}: (${this.url}). Author: ${this.author}`;
     }
 }
