@@ -6,8 +6,12 @@ export default class SocialNewsProgram {
     addLink() {
         let addLinkDefault = () => {
             let title = prompt("Enter the url title:", "");
-            let url = prompt("Enter the url url:", "");
+            let url = prompt("Enter the url:", "");
             let author = prompt("Enter the url author:", "");
+
+            if (url.startsWith("http://") === false && url.startsWith("https://") === false) {
+                url = "https://" + url;
+            }
 
             let newLink = new Link(title, url, author);
             this.#links.push(newLink);
