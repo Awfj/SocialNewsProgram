@@ -48,6 +48,10 @@ export default class SocialNewsProgram {
         } while(isNaN(number) || number < 1 || number > this.#links.length);
     };
 
+    getLinks() {
+        return this.#links;
+    }
+
     showLinks() {
         let output = "";
 
