@@ -1,5 +1,6 @@
 export default class Link {
-    constructor(title = "", url = "", author = "") {
+    constructor(id, title = "", url = "", author = "") {
+        this.id = id;
         this.title = title;
         this.url = url;
         this.author = author;

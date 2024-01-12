@@ -2,6 +2,7 @@ import Link from "./Link.js";
 
 export default class SocialNewsProgram {
     #links = [];
+    nextId = 0;
 
     addLink() {
         let addLinkDefault = () => {
@@ -9,22 +10,23 @@ export default class SocialNewsProgram {
             let url = prompt("Enter the url:", "");
             let author = prompt("Enter the url author:", "");
 
-            if (url.startsWith("http://") === false && url.startsWith("https://") === false) {
-                url = "https://" + url;
-            }
+            url = this.#formatUrl(url);
 
-            let newLink = new Link(title, url, author);
+            let newLink = new Link(this.nextId, title, url, author);
+            this.nextId++;
             this.#links.push(newLink);
         }
 
-        let addLinkWithParams = (title, url, author) => {
-            let newLink = new Link(title, url, author);
+        let addLinkParameterized = (title, url, author) => {
+            url = this.#formatUrl(url);
+            let newLink = new Link(this.nextId, title, url, author);
+            this.nextId++;
             this.#links.push(newLink);
         }
 
         switch(arguments.length) {
             case 3: {
-                addLinkWithParams(arguments[0], arguments[1], arguments[2]);
+                addLinkParameterized(arguments[0], arguments[1], arguments[2]);
                 break;
             }
             default: {
@@ -33,40 +35,90 @@ export default class SocialNewsProgram {
         }
     };
 
-    removeLink() {
-        let input;
-        let number;
-
-        do {
-            input = prompt("Enter the number of the link to be removed:", "");
-
-            if (input === null) {
-                return;
+    removeLink(e, title) {
+        let index = -1;
+        for (let i = 0; i < this.#links.length; i++) {
+            if (this.#links[i].title === title) {
+                index = i;
+                break;
             }
+        }
 
-            number = parseInt(input);
-        } while(isNaN(number) || number < 1 || number > this.#links.length);
-    };
+        if (index === -1) {
+            return;
+        }
+
+        this.#links.splice(index, 1);
+        this.showLinks();
+    }
 
     getLinks() {
         return this.#links;
     }
 
     showLinks() {
-        let output = "";
+        let linksSection = document.querySelector("#links");
+        let linksNumber = linksSection.children.length - 1;
 
-        this.#links.forEach((link, index) => {
-            output += `${index + 1}: ${link.toString()}\n`;
-        });
+        if (linksNumber > 0) {
+            for (let i = 0; i < linksNumber; i++) {
+                linksSection.removeChild(linksSection.lastElementChild);
+            }
+        }
 
-        alert(output);
+        this.#links.forEach(link => this.addLinkElement(link));
     };
 
-    showMenu() {
-        return prompt(`Choose an option:
-    1: Show links
-    2: Add a link
-    3: Remove a link
-    0: Quit`, "");
+    addLinkElement(link) {
+        let linksSection = document.querySelector("#links");
+
+        let articleElement = document.createElement("article");
+        let titleElement = document.createElement("a");
+        let urlElement = document.createElement("p");
+        let authorElement = document.createElement("p");
+        let deleteButton = document.createElement("button");
+
+        titleElement.innerText = link.title;
+        titleElement.href = link.url;
+        urlElement.innerText = link.url;
+        authorElement.innerText = link.author;
+
+        deleteButton.addEventListener("click", (e) => this.removeLink(e, link.title));
+        deleteButton.innerText = "Remove";
+
+        articleElement.appendChild(titleElement);
+        articleElement.appendChild(urlElement);
+        articleElement.appendChild(authorElement);
+        articleElement.appendChild(deleteButton);
+
+        linksSection.appendChild(articleElement);
+    }
+
+    toggleLinkForm() {
+        let linkForm = document.querySelector("#linkForm");
+        let isDisplayed = linkForm.style.display === "block";
+        linkForm.style.display = isDisplayed ? "none" : "block";
+    }
+
+    submitForm(e) {
+        e.preventDefault();
+
+        let linkForm = document.querySelector("#linkForm");
+        let inputFields = linkForm.querySelectorAll("input[type='text']");
+        let [title, url, author] = inputFields;
+
+        this.addLink(title.value, url.value, author.value);
+        this.addLinkElement(this.getLinks().at(-1));
+
+        for (let field of inputFields) {
+            field.value = "";
+        }
+    }
+
+    #formatUrl(url) {
+        if (url.startsWith("http://") === false && url.startsWith("https://") === false) {
+            url = "https://" + url;
+        }
+        return url;
     }
 }

@@ -1,3 +1,15 @@
 article {
-    border: 1px solid red;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 10px;
+    max-width: 300px
+}
+
+p {
+    margin: 0;
+}
+
+#linkForm {
+    display: none;
 }

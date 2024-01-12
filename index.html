@@ -7,23 +7,23 @@
 </head>
 <body>
 <main>
-    <button>Submit</button>
+    <button id="newLinkButton">New Link</button>
+    <form id="linkForm" action="">
+        <label>
+            Title:
+            <input type="text" required>
+        </label>
+        <label>
+            URL:
+            <input type="text" required>
+        </label>
+        <label>
+            Author:
+            <input type="text" required>
+        </label>
+        <input type="submit">
+    </form>
     <section id="links">
-        <form id="linkForm" action="">
-            <label>
-                Title:
-                <input type="text" required>
-            </label>
-            <label>
-                URL:
-                <input type="text" required>
-            </label>
-            <label>
-                Author:
-                <input type="text" required>
-            </label>
-            <input type="submit">
-        </form>
         <h1>Links</h1>
     </section>
 </main>
